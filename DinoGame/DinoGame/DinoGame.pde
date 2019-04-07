@@ -1,50 +1,112 @@
-double x,y;
+//Globals
 
-double gravity=0.5;
-double velocity = 0;
-int ground = 400;
-boolean jump=false;
+PImage dinoRun1, dinoRun2, dinoJump, smallCactus, manySmallCactus, bigCactus;
+
+
+Dino d;
+ArrayList<Obstacle> obstacleArray;
+int obstacleTimer = 0, minDistance = 150, randomNum;
+int score=0;
+
+
+//-----------------------------------------------------------------------------------
 void setup()
 {
-  size(500,500);
-  x= 50;
-  y= 400;
+  frameRate(60);
+  dinoRun1 = loadImage("dinorun0000.png");
+  dinoRun2 = loadImage("dinorun0001.png");
+  dinoJump = loadImage("dinoJump0000.png");
+  
+  smallCactus = loadImage("cactusSmall0000.png");
+  bigCactus = loadImage("cactusBig0000.png");
+  manySmallCactus = loadImage("cactusSmallMany0000.png");
+  
+  size(1000,500);
+ d = new Dino();
+ obstacleArray= new ArrayList<Obstacle>();
   
 }
+//---------------------------------------------------------------------------------
 void draw()
 {
   background(255);
   fill(255);
-  rect(-10,430, 550, 100);
-  updateSprite();
+  rect(-10,450, 1100, 100);
+  if(d.isAlive()){
+    addObstacles();
+
+  }
+  d.updateSprite();
+  d.drawSprite();
+  updateObstacles();
+  
+  drawScore();
             
 
 }
-void updateSprite(){
- if(y<400)
- {
- velocity +=gravity;
+//---------------------------------------------------------------------------------------
+public void drawScore(){
+ text("Score:"+score, 930, 20); 
+ if(d.isAlive()){
+ score++;
  }
- else if(y>=400){
-  velocity=0; 
- }
- if(jump && y>=400)
- {
-  velocity=-10; 
-  jump=false;
- }
- y+=velocity;
- fill(0);
-rect((int)x,(int)y, 30,30);
-
 }
-void keyReleased()
+//------------------------------------------------------------------------------------
+public void addObstacles()
+{
+  obstacleTimer++;
+  randomNum = (int)random(75);
+  //println("timer:" +obstacleTimer);
+  if(obstacleTimer>minDistance+randomNum)
+  {
+    
+    obstacleArray.add(new Obstacle((int)random(4)));
+    obstacleTimer=0;
+  }
+}
+//-----------------------------------------------------------------------------------
+public void updateObstacles(){
+ArrayList<Obstacle> removedObstacles= new ArrayList<Obstacle>();
+for(Obstacle o:obstacleArray){
+  o.update();
+  if(o.getX() <-1*(o.getX())){
+    removedObstacles.add(o);
+  }
+  if(d.isCollided(o.getX(), o.getY(), o.getW(), o.getH())){
+   d.setAlive(false);
+   d.setVelocity(0);
+  }
+  if(!d.isAlive()){
+    o.setSpeed(0);
+  }
+// println("size:"+obstacleArray.size());
+}
+
+for(Obstacle o: removedObstacles){
+  obstacleArray.remove(o);
+}
+}
+//-----------------------------------------------------------------------------------------
+public void reset()
+{
+ d.setAlive(true);
+ score =0;
+ obstacleArray.clear();
+ d.setDinoY(400);
+  
+}
+
+//---------------------------------------------------------------------------------
+void keyPressed()
  {
-   print("A");
-   if(keyCode==32&&y>=400){
+   //print("A");
+   if(keyCode==32&& d.getDinoY()>=400){
    
-     jump=true;
+     d.setJump(true);
      
     }
+   if(keyCode==ENTER){
+    reset();
+   }
  
  }
