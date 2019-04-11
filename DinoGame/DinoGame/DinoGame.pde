@@ -5,8 +5,9 @@ PImage dinoRun1, dinoRun2, dinoJump, smallCactus, manySmallCactus, bigCactus;
 
 Dino d;
 ArrayList<Obstacle> obstacleArray;
-int obstacleTimer = 0, minDistance = 150, randomNum;
+int obstacleTimer = 0, randomNum;
 int score=0;
+double gameSpeed=5, minDistance = 75;
 
 
 //-----------------------------------------------------------------------------------
@@ -34,7 +35,12 @@ void draw()
   rect(-10,450, 1100, 100);
   if(d.isAlive()){
     addObstacles();
-
+    increaseGameSpeed();
+  }
+  else{
+   fill(255,0,0);
+   textSize(30);
+   text("Game Over\nScore:"+score/5, 450,200);
   }
   d.updateSprite();
   d.drawSprite();
@@ -44,23 +50,31 @@ void draw()
             
 
 }
+//--------------------------------------------------------------------------------------
+public void increaseGameSpeed(){
+ gameSpeed+=0.001;
+}
 //---------------------------------------------------------------------------------------
 public void drawScore(){
- text("Score:"+score, 930, 20); 
+  textSize(14);
+  fill(0);
+ text("Score:"+(score/5), 910, 20); 
  if(d.isAlive()){
- score++;
+ score+=gameSpeed;
  }
 }
 //------------------------------------------------------------------------------------
 public void addObstacles()
 {
   obstacleTimer++;
-  randomNum = (int)random(75);
+  
+  minDistance = minDistance-0.001;
+  randomNum = (int)random(125);
   //println("timer:" +obstacleTimer);
   if(obstacleTimer>minDistance+randomNum)
   {
     
-    obstacleArray.add(new Obstacle((int)random(4)));
+    obstacleArray.add(new Obstacle((int)random(4), gameSpeed));
     obstacleTimer=0;
   }
 }
@@ -93,17 +107,20 @@ public void reset()
  score =0;
  obstacleArray.clear();
  d.setDinoY(400);
+ gameSpeed = 5;
   
 }
 
 //---------------------------------------------------------------------------------
 void keyPressed()
  {
-   //print("A");
+  // print("A");
+   println("DinoY:"+d.getDinoY());
    if(keyCode==32&& d.getDinoY()>=400){
-   
-     d.setJump(true);
      
+     d.setJump(true);
+     d.drawSprite();
+     d.updateSprite();
     }
    if(keyCode==ENTER){
     reset();

@@ -1,7 +1,7 @@
 import java.awt.Rectangle;
 public class Dino{
 private int dinoX = 50,dinoY=400, dinoW=30, dinoH = 50, ground =450, dinoCY;
-private double gravity =0.5, velocity = 0 ;
+private double gravity =0.70, velocity = 0 ;
 private boolean jump=false, alive = true;
 private int runCount = -5;
 //------------------------------------------------------------------------------
@@ -11,13 +11,14 @@ void updateSprite(){
  {
  velocity +=gravity;
  }
- else if(dinoY>=400){
-  velocity=0; 
- }
- if(jump && dinoY>=400)
+  else if(jump && dinoY>=400)
  {
-  velocity=-10; 
+   println("Dino Jumps");
+  velocity=-14; 
   jump=false;
+ }
+ else {
+  velocity=0; 
  }
  dinoY+=velocity;
  fill(0);
@@ -26,7 +27,7 @@ void updateSprite(){
 //--------------------------------------------------------------------------------------------
 
 public void drawSprite(){
- if(dinoY == 400){
+ if(dinoY >= 400){
   if(runCount<0){
     image(dinoRun1, dinoX, ground-dinoRun1.height);
     dinoW = dinoRun1.width;
@@ -85,11 +86,11 @@ public void setVelocity(double v){
 public boolean isCollided(float cX, float cY, float cW, float cH)
 {
   Rectangle r1 = new Rectangle((int)cX,(int)cY,(int)cW,(int)cH);
-  Rectangle r2 = new Rectangle((int)dinoX+10,(int)dinoCY+10,(int)dinoW-20,(int)dinoH-20);
-//stroke(255,0,0,0);
-
-  //rect((int)dinoX+10,(int)dinoCY+10,(int)dinoW-20,(int)dinoH-20);
-
+  Rectangle r2 = new Rectangle((int)dinoX+10,(int)dinoCY+10,(int)dinoW-40,(int)dinoH-20);
+stroke(255,0,0);
+fill(0,0);
+  rect((int)dinoX+10,(int)dinoCY+10,(int)dinoW-40,(int)dinoH-20);
+  rect((int)cX,(int)cY,(int)cW,(int)cH);
 if(r1.intersects(r2))
 {
   return true;
