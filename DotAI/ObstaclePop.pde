@@ -5,7 +5,7 @@ public ObstaclePop(){
 }
 
 public void addObstacle(int x, int y, int w, int h){
- o.add(new Obstacle(x,y,w,h);
+ o.add(new Obstacle(x,y,w,h));
 }
 
 public void show(){

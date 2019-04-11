@@ -18,7 +18,8 @@ void updateSprite(){
   jump=false;
  }
  else {
-  velocity=0; 
+  velocity=0;
+  dinoY=400;
  }
  dinoY+=velocity;
  fill(0);

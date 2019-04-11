@@ -10,6 +10,7 @@ p = new ObstaclePop();
  
  p.addObstacle(400,600,400,10);
 p.addObstacle(0,200,400,10);
+p.addObstacle(200,400,300,10);
   
 }
 void draw(){
@@ -17,8 +18,8 @@ void draw(){
   fill(255,0,0);
   ellipse(g.getX(), g.getY(), 10,10);
   
-  fill(0,0,255);
-  rect(100,300,600,10);
+ // fill(0,0,255);
+ // rect(100,300,600,10);
   p.show();
   if(test.allDotsDead()){
     test.calculateFitness();

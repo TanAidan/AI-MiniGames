@@ -56,8 +56,8 @@ public void update(){
         //if its reached the goal
         reachedGoal= true;
       }
-      else if(p.hasCollided((int)pos.x, (int)pos.y, 2,2){
-        
+      else if(p.hasCollided((int)pos.x, (int)pos.y, 2,2)){
+        dead=true;
         
       }
     }
