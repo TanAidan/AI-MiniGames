@@ -8,9 +8,9 @@ p = new ObstaclePop();
  test= new Population(1000);
  g = new Goal(new PVector(400,10));
  
- p.addObstacle(400,600,400,10);
+/* p.addObstacle(400,600,400,10);
 p.addObstacle(0,200,400,10);
-p.addObstacle(200,400,300,10);
+p.addObstacle(200,400,300,10);*/
   
 }
 void draw(){
@@ -21,14 +21,17 @@ void draw(){
  // fill(0,0,255);
  // rect(100,300,600,10);
   p.show();
-  if(test.allDotsDead()){
+  if(test.allDotsDead()&&!test.complete){
     test.calculateFitness();
     test.naturalSelection();
     test.mutatePop();
-    
+  }
+  else if(test.allDotsDead()&&test.complete){
+  test.naturalSelection();
   }
   test.update();
   test.show();
+    
   
 }
 //-----------------------------------------------------------------------

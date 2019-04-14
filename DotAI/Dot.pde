@@ -66,7 +66,7 @@ public void update(){
 //----------------------------------------------------------------------------------------------
 public void calculateFitness(){
   if(reachedGoal){
-    fitness = 1.0/16.0+10000.0/(float)(brain.step*brain.step);
+    fitness = 1.0+10000.0/(float)(brain.step*brain.step);
   }
   else{
   float distanceToGoal = dist(pos.x, pos.y, g.getX(), g.getY());
